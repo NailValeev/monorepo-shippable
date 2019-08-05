@@ -16,9 +16,9 @@ tag_and_push_image() {
 
   echo "working with branch $BRANCH"
 
-  echo "building image $1_feature"
+  echo "building image" $1"_feature"
   sudo docker build -t $ACCOUNT_NAME/$1"_feature":$BRANCH.$SHIPPABLE_BUILD_NUMBER -f packages/$1/Dockerfile .
-  echo "pushing image $1_feature"
+  echo "pushing image" $1"_feature"
   sudo docker push $ACCOUNT_NAME/$1"_feature":$BRANCH.$SHIPPABLE_BUILD_NUMBER
 
   # We trigger the manifest and subsequently the deploy jobs downstream by posting a new version to the image resource.
@@ -32,6 +32,6 @@ tag_and_push_image() {
 main() {
 	install_node_modules
 	tag_and_push_image "$@"
-}s
+}
 
 main "$@"
