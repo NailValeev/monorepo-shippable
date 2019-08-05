@@ -1,5 +1,6 @@
 install_node_modules() {
-    npm install
+  echo "working ith branch $BRANCH"
+  yarn install
 }
 
 execute_tests_and_code_coverage() { # TODO edit it for our monorepo
@@ -12,6 +13,8 @@ execute_tests_and_code_coverage() { # TODO edit it for our monorepo
 
 tag_and_push_image() {
   ACCOUNT_NAME='316425403378.dkr.ecr.eu-west-1.amazonaws.com'
+
+  echo "working ith branch $BRANCH"
 
   echo "building image $1"
   sudo docker build -t $ACCOUNT_NAME/$1:$BRANCH.$SHIPPABLE_BUILD_NUMBER -f packages/$1/Dockerfile .
