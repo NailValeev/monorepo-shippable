@@ -33,6 +33,12 @@ integrations:
       branches:
         only:
           - master
+    - integrationName: integration2
+      type: amazonKeys
+      region: "eu-west-1"
+      branches:
+        except:
+          - master
 
 resources:
   - name: alice_img
