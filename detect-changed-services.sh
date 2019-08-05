@@ -56,22 +56,6 @@ detect_changed_services() {
           popd
       done
   fi
-
-
-  # Iterate on each service and run the packaging script
-  for service in $changed_services
-  do
-      echo "-------------------Running packaging for $service---------------------"
-      # copy the common code to the service so that it can be packaged in the docker image
-      pushd packages/"$service" #what is the purpose?
-      # move the build script to the root of the service
-      # cp ../../package-service.sh ./.
-      ls
-      chmod +x ../../master-service.sh
-      cd ../..
-      sh master-service.sh "$service"
-      popd
-  done
 }
 
 detect_changed_services

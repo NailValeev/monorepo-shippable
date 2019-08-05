@@ -55,7 +55,7 @@ resources:
     type: image
     integration: aws
     pointer:
-      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice"
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice_feature"
     seed:
       versionName: "feature.1"
 
@@ -63,7 +63,7 @@ resources:
     type: image
     integration: aws
     pointer:
-      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bob"
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bob_feature"
     seed:
       versionName: "feature.1"
 
