@@ -103,6 +103,7 @@ jobs:
     type: manifest
     steps:
      - IN: alice_img_feature
+       switch: on
 
   - name: micro_bob_def
     type: manifest
