@@ -13,7 +13,7 @@ detect_changed_services() {
   do
     if [ "$folder" == 'common' ]; then
       echo "common folder changed, building and publishing all services"
-      changed_services=`find . -maxdepth 1 -type d -not -name 'common' -not -name 'shippable' -not -name '.git' -not -path '.' | sed 's|./||'`
+      changed_services=("alice", "bob")
       echo "list of applications "$changed_services
       break
     else

@@ -43,11 +43,11 @@ resources:
     seed:
       versionName: "master.1"
 
-  - name: bumblebee_img
+  - name: bob_img
     type: image
     integration: aws
     pointer:
-      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bumblebee"
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bob"
     seed:
       versionName: "master.1"
 
@@ -63,22 +63,22 @@ jobs:
     type: runCI
     steps:
        - OUT: alice_img
-       - OUT: bublebee_img
+       - OUT: bob_img
 
   - name: micro_alice_def
     type: manifest
     steps:
      - IN: alice_img
 
-  - name: micro_bublebee_def
+  - name: micro_bob_def
     type: manifest
     steps:
-     - IN: bublebee_img
+     - IN: bob_img
 
   - name: app_deploy
     type: deploy
     method: replace
     steps:
       - IN: micro_alice_def
-      - IN: micro_bublebee_def
+      - IN: micro_bob_def
       - IN: ecs_cluster

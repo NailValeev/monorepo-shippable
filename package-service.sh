@@ -2,7 +2,7 @@ install_node_modules() {
     npm install
 }
 
-execute_tests_and_code_coverage() {
+execute_tests_and_code_coverage() { # TODO edit it for our monorepo
   if [ -f ./Gruntfile.js ]; then
     grunt --force
     ./node_modules/.bin/istanbul cover grunt --force --dir $SHIPPABLE_BUILD_DIR/shippable/codecoverage
@@ -14,7 +14,6 @@ tag_and_push_image() {
   ACCOUNT_NAME='316425403378.dkr.ecr.eu-west-1.amazonaws.com'
 
   echo "building image $1"
-  ls
   sudo docker build -t $ACCOUNT_NAME/$1:$BRANCH.$SHIPPABLE_BUILD_NUMBER -f packages/$1/Dockerfile .
   echo "pushing image $1"
   sudo docker push $ACCOUNT_NAME/$1:$BRANCH.$SHIPPABLE_BUILD_NUMBER
