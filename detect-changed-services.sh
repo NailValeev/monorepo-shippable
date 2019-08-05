@@ -23,6 +23,41 @@ detect_changed_services() {
     fi
   done
 
+  if [ "$BRANCH" == 'master' ]; then
+    echo "master branch, services should be deployed, CD pipeline "
+      # Iterate on each service and run the packaging script
+      for service in $changed_services
+      do
+          echo "-------------------Running packaging for $service---------------------"
+          # copy the common code to the service so that it can be packaged in the docker image
+          pushd packages/"$service" #what is the purpose?
+          # move the build script to the root of the service
+          # cp ../../package-service.sh ./.
+          ls
+          chmod +x ../../master-service.sh
+          cd ../..
+          sh master-service.sh "$service"
+          popd
+      done
+  else
+    echo "feature branch, CI pipeline "
+          # Iterate on each service and run the packaging script
+      for service in $changed_services
+      do
+          echo "-------------------Running packaging for $service---------------------"
+          # copy the common code to the service so that it can be packaged in the docker image
+          pushd packages/"$service" #what is the purpose?
+          # move the build script to the root of the service
+          # cp ../../package-service.sh ./.
+          ls
+          chmod +x ../../feature-service.sh
+          cd ../..
+          sh feature-service.sh "$service"
+          popd
+      done
+  fi
+
+
   # Iterate on each service and run the packaging script
   for service in $changed_services
   do
@@ -32,9 +67,9 @@ detect_changed_services() {
       # move the build script to the root of the service
       # cp ../../package-service.sh ./.
       ls
-      chmod +x ../../package-service.sh
+      chmod +x ../../master-service.sh
       cd ../..
-      sh package-service.sh "$service"
+      sh master-service.sh "$service"
       popd
   done
 }
