@@ -26,11 +26,7 @@ detect_changed_services() {
   for service in $changed_services
   do
       echo "-------------------Running packaging for $service---------------------"
-      # copy the common code to the service so that it can be packaged in the docker image
       pushd packages/"$service" #what is the purpose?
-      # move the build script to the root of the service
-      # cp ../../package-service.sh ./.
-      ls
       chmod +x ../../package-service.sh
       cd ../..
       sh package-service.sh "$service"
