@@ -51,7 +51,6 @@ resources:
     seed:
       versionName: "master.1"
 
-resources:
   - name: alice_img_feature
     type: image
     integration: aws
