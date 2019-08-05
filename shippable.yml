@@ -44,11 +44,11 @@ integrations:
       type: slack
       recipients:
         "#channelOne"
-          branches:
-            only:
-              - master
-          on_success: always
-          on_failure: always
+        branches:
+          only:
+            - master
+        on_success: always
+        on_failure: always
 
 resources:
   - name: alice_img
