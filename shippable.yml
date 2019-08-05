@@ -80,16 +80,18 @@ jobs:
     steps:
        - OUT: alice_img
        - OUT: bob_img
+       - OUT: alice_img_feature
+       - OUT: bob_img_feature
 
   - name: micro_alice_def
     type: manifest
     steps:
-     - IN: alice_img
+     - IN: alice_img_feature
 
   - name: micro_bob_def
     type: manifest
     steps:
-     - IN: bob_img
+     - IN: bob_img_feature
 
   - name: app_deploy
     type: deploy
