@@ -15,7 +15,7 @@ RUN yarn install
 
 # Build
 
-RUN cd packages/alice && yarn build
+# RUN cd packages/alice && yarn build
 EXPOSE 3000
 CMD yarn workspace alice start
 
