@@ -4,11 +4,9 @@ install_node_modules() {
 }
 
 execute_tests_and_code_coverage() { # TODO edit it for our monorepo
-  if [ -f ./Gruntfile.js ]; then
-    grunt --force
-    ./node_modules/.bin/istanbul cover grunt --force --dir $SHIPPABLE_BUILD_DIR/shippable/codecoverage
-    ./node_modules/.bin/istanbul report cobertura --dir  $SHIPPABLE_BUILD_DIR/shippable/codecoverage/
-  fi  
+  echo "testing service $1"
+  yarn workspace $1 test
+ 
 }
 
 tag_and_push_image() {
