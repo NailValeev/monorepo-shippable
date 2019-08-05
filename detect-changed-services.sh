@@ -33,7 +33,6 @@ detect_changed_services() {
           pushd packages/"$service" #what is the purpose?
           # move the build script to the root of the service
           # cp ../../package-service.sh ./.
-          ls
           chmod +x ../../master-service.sh
           cd ../..
           sh master-service.sh "$service"
@@ -49,7 +48,6 @@ detect_changed_services() {
           pushd packages/"$service" #what is the purpose?
           # move the build script to the root of the service
           # cp ../../package-service.sh ./.
-          ls
           chmod +x ../../feature-service.sh
           cd ../..
           sh feature-service.sh "$service"

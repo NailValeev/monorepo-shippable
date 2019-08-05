@@ -43,7 +43,7 @@ integrations:
     - integrationName: slack
       type: slack
       recipients:
-        "#channelOne"
+        - "#channelOne"
       branches:
         only:
           - master
@@ -83,6 +83,27 @@ resources:
     seed:
       versionName: "feature.1"
 
+  - name: deploy-ecs-basic-params
+    type: params
+    version:
+      params:
+        PORT: 80
+        ENVIRONMENT: "dev"
+
+  - name: deploy-ecs-basic-docker-options
+    type: dockerOptions
+    versionTemplate:
+      linuxParameters:
+        initProcessEnabled: true
+      memory: 100
+      portMappings:
+        - 80:80
+
+  - name: deploy-ecs-basic-replicas
+    type: replicas
+    version:
+      count: 1
+
   - name: ecs_cluster
     type: cluster
     integration: aws
@@ -103,17 +124,32 @@ jobs:
     type: manifest
     steps:
      - IN: alice_img
-       switch: on
 
   - name: micro_bob_def
     type: manifest
     steps:
      - IN: bob_img
 
-  - name: app_deploy
-    type: deployconfig
-    method: replace
+  # - name: app_deploy
+  #   type: deployconfig
+  #   method: replace
+  #   steps:
+  #     - IN: micro_alice_def
+  #     - IN: micro_bob_def
+  #     - IN: ecs_cluster
+
+  - name: deploy-ecs-basic-manifest
+    type: manifest
     steps:
-      - IN: micro_alice_def
-      - IN: micro_bob_def
+     - IN: alice_img
+     - IN: deploy-ecs-basic-docker-options
+     - IN: deploy-ecs-basic-params
+     - IN: deploy-ecs-basic-replicas
+
+  - name: deploy-ecs-basic-deploy
+    type: deploy
+    steps:
+      - IN: deploy-ecs-basic-manifest
       - IN: ecs_cluster
+      - TASK: managed
+        deployMethod: replace
