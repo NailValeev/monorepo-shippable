@@ -1,5 +1,5 @@
 install_node_modules() {
-  echo "working ith branch $BRANCH"
+  echo "working with branch $BRANCH"
   yarn install
 }
 
