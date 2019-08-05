@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 detect_changed_services() {
+  echo "working ith branch $BRANCH"
   echo "----------------------------------------------"
   echo "detecting changed folders for this commit"
 

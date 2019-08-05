@@ -51,6 +51,23 @@ resources:
     seed:
       versionName: "master.1"
 
+resources:
+  - name: alice_img_feature
+    type: image
+    integration: aws
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice"
+    seed:
+      versionName: "feature.1"
+
+  - name: bob_img_feature
+    type: image
+    integration: aws
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bob"
+    seed:
+      versionName: "feature.1"
+
   - name: ecs_cluster
     type: cluster
     integration: aws
