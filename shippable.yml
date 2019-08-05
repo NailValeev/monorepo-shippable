@@ -83,14 +83,14 @@ resources:
     seed:
       versionName: "feature.1"
 
-  - name: deploy-ecs-basic-params
+  - name: deploy-ecs-params
     type: params
     version:
       params:
         PORT: 80
         ENVIRONMENT: "dev"
 
-  - name: deploy-ecs-basic-docker-options
+  - name: deploy-ecs-docker-options
     type: dockerOptions
     versionTemplate:
       linuxParameters:
@@ -99,7 +99,7 @@ resources:
       portMappings:
         - 80:80
 
-  - name: deploy-ecs-basic-replicas
+  - name: deploy-ecs-replicas
     type: replicas
     version:
       count: 1
@@ -138,18 +138,18 @@ jobs:
   #     - IN: micro_bob_def
   #     - IN: ecs_cluster
 
-  - name: deploy-ecs-basic-manifest
+  - name: deploy-ecs-manifest
     type: manifest
     steps:
      - IN: alice_img
-     - IN: deploy-ecs-basic-docker-options
-     - IN: deploy-ecs-basic-params
-     - IN: deploy-ecs-basic-replicas
+     - IN: deploy-ecs-docker-options
+     - IN: deploy-ecs-params
+     - IN: deploy-ecs-replicas
 
-  - name: deploy-ecs-basic-deploy
+  - name: deploy-ecs-deploy
     type: deploy
     steps:
-      - IN: deploy-ecs-basic-manifest
+      - IN: deploy-ecs-manifest
       - IN: ecs_cluster
       - TASK: managed
         deployMethod: replace
