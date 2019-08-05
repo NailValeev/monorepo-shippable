@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 detect_changed_services() {
-  echo "working ith branch $BRANCH"
+  echo "working with branch $BRANCH"
   echo "----------------------------------------------"
   echo "detecting changed folders for this commit"
 
@@ -14,7 +14,7 @@ detect_changed_services() {
   do
     if [ "$folder" == 'common' ]; then
       echo "common folder changed, building and publishing all services"
-      changed_services=("alice", "bob")
+      changed_services=("alice bob")
       echo "list of applications "$changed_services
       break
     else
