@@ -1,0 +1,84 @@
+# Language setting
+language: node_js
+
+# Version number
+node_js:
+  - 8.2.1
+
+env:
+  global:
+    - XUNIT_FILE=$SHIPPABLE_BUILD_DIR/shippable/testresults/result.xml API_PORT=80
+
+build:
+  ci:
+    # create directories needed for unit tests and code coverage
+    - mkdir -p $SHIPPABLE_BUILD_DIR/shippable/testresults
+    - mkdir -p $SHIPPABLE_BUILD_DIR/shippable/codecoverage
+    # run a script that detects if any microservice code has changed and tests,
+    # builds and publishes the docker image to ECR
+    - |
+      if [ "$IS_PULL_REQUEST" != true ]; then
+        ./detect-changed-services.sh
+      else
+        echo "skipping because it's a PR"
+      fi
+
+# ECR subscription integration that automatically does a docker login into ECR
+# using credentials specified in the account integration
+integrations:
+  hub:
+    - integrationName: aws
+      type: amazonKeys
+      region: "eu-west-1"
+      branches:
+        only:
+          - master
+
+resources:
+  - name: alice_img
+    type: image
+    integration: aws
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice"
+    seed:
+      versionName: "master.1"
+
+  - name: bumblebee_img
+    type: image
+    integration: aws
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bumblebee"
+    seed:
+      versionName: "master.1"
+
+  - name: ecs_cluster
+    type: cluster
+    integration: aws
+    pointer:
+      sourceName : "codefreshCluster-ECSCluster-1KW7G556ZKQFG" #name of the cluster to which we are deploying
+      region: "eu-west-1"
+ 
+jobs:
+  - name: app-mono_runCI
+    type: runCI
+    steps:
+       - OUT: alice_img
+       - OUT: bublebee_img
+
+  - name: micro_alice_def
+    type: manifest
+    steps:
+     - IN: alice_img
+
+  - name: micro_bublebee_def
+    type: manifest
+    steps:
+     - IN: bublebee_img
+
+  - name: app_deploy
+    type: deploy
+    method: replace
+    steps:
+      - IN: micro_alice_def
+      - IN: micro_bublebee_def
+      - IN: ecs_cluster
