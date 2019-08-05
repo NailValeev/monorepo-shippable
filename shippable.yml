@@ -33,6 +33,12 @@ integrations:
       branches:
         only:
           - master
+    - integrationName: integration2
+      type: amazonKeys
+      region: "eu-west-1"
+      branches:
+        except:
+          - master
 
 resources:
   - name: alice_img
@@ -51,6 +57,22 @@ resources:
     seed:
       versionName: "master.1"
 
+  - name: alice_img_feature
+    type: image
+    integration: aws
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice_feature"
+    seed:
+      versionName: "feature.1"
+
+  - name: bob_img_feature
+    type: image
+    integration: aws
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bob_feature"
+    seed:
+      versionName: "feature.1"
+
   - name: ecs_cluster
     type: cluster
     integration: aws
@@ -64,16 +86,18 @@ jobs:
     steps:
        - OUT: alice_img
        - OUT: bob_img
+       - OUT: alice_img_feature
+       - OUT: bob_img_feature
 
   - name: micro_alice_def
     type: manifest
     steps:
-     - IN: alice_img
+     - IN: alice_img_feature
 
   - name: micro_bob_def
     type: manifest
     steps:
-     - IN: bob_img
+     - IN: bob_img_feature
 
   - name: app_deploy
     type: deploy

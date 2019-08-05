@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 detect_changed_services() {
+  echo "working with branch $BRANCH"
   echo "----------------------------------------------"
   echo "detecting changed folders for this commit"
 
@@ -13,7 +14,7 @@ detect_changed_services() {
   do
     if [ "$folder" == 'common' ]; then
       echo "common folder changed, building and publishing all services"
-      changed_services+=('alice bob')
+      changed_services=("alice bob")
       echo "list of applications "$changed_services
       break
     else
@@ -22,16 +23,39 @@ detect_changed_services() {
     fi
   done
 
-  # Iterate on each service and run the packaging script
-  for service in $changed_services
-  do
-      echo "-------------------Running packaging for $service---------------------"
-      pushd packages/"$service" #what is the purpose?
-      chmod +x ../../package-service.sh
-      cd ../..
-      sh package-service.sh "$service"
-      popd
-  done
+  if [ "$BRANCH" == 'master' ]; then
+    echo "master branch, services should be deployed, CD pipeline "
+      # Iterate on each service and run the packaging script
+      for service in $changed_services
+      do
+          echo "-------------------Running packaging for $service---------------------"
+          # copy the common code to the service so that it can be packaged in the docker image
+          pushd packages/"$service" #what is the purpose?
+          # move the build script to the root of the service
+          # cp ../../package-service.sh ./.
+          ls
+          chmod +x ../../master-service.sh
+          cd ../..
+          sh master-service.sh "$service"
+          popd
+      done
+  else
+    echo "feature branch, CI pipeline "
+          # Iterate on each service and run the packaging script
+      for service in $changed_services
+      do
+          echo "-------------------Running packaging for $service---------------------"
+          # copy the common code to the service so that it can be packaged in the docker image
+          pushd packages/"$service" #what is the purpose?
+          # move the build script to the root of the service
+          # cp ../../package-service.sh ./.
+          ls
+          chmod +x ../../feature-service.sh
+          cd ../..
+          sh feature-service.sh "$service"
+          popd
+      done
+  fi
 }
 
 detect_changed_services
