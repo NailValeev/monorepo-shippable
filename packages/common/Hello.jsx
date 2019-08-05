@@ -1,6 +1,6 @@
 import React from "react";
 
-function Heading({ level = "1", title }) {
+function Heading({ level = "2", title }) {
   return React.createElement(`h${level}`, {}, title);
 }
 
