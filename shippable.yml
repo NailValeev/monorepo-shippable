@@ -43,7 +43,7 @@ integrations:
     - integrationName: slack
       type: slack
       recipients:
-        # specify? I have configured the private Slack bot
+        "#channelOne"
           branches:
             only:
               - master
@@ -102,16 +102,16 @@ jobs:
   - name: micro_alice_def
     type: manifest
     steps:
-     - IN: alice_img_feature
+     - IN: alice_img
        switch: on
 
   - name: micro_bob_def
     type: manifest
     steps:
-     - IN: bob_img_feature
+     - IN: bob_img
 
   - name: app_deploy
-    type: deploy
+    type: deployconfig
     method: replace
     steps:
       - IN: micro_alice_def
