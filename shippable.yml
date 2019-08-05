@@ -39,6 +39,16 @@ integrations:
       branches:
         except:
           - master
+  notifications:
+    - integrationName: slack
+      type: slack
+      recipients:
+        # specify? I have configured the private Slack bot
+          branches:
+            only:
+              - master
+          on_success: always
+          on_failure: always
 
 resources:
   - name: alice_img
