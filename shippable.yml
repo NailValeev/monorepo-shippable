@@ -114,12 +114,12 @@ resources:
     version:
       count: 1
 
-  - name: ecs_cluster
-    type: cluster
-    integration: aws
-    pointer:
-      sourceName : "codefreshCluster-ECSCluster-1KW7G556ZKQFG" #name of the cluster to which we are deploying
-      region: "eu-west-1"
+  # - name: ecs_cluster
+  #   type: cluster
+  #   integration: aws
+  #   pointer:
+  #     sourceName : "codefreshCluster-ECSCluster-1KW7G556ZKQFG" #name of the cluster to which we are deploying
+  #     region: "eu-west-1"
 
   - name: deploy-ecs-cluster
     type: cluster
