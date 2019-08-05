@@ -83,6 +83,16 @@ resources:
     seed:
       versionName: "feature.1"
 
+
+  - name: deploy-ecs-image
+    type: image
+    integration: aws
+    region: "eu-west-1" 
+    pointer:
+      sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice"
+    seed:
+      versionName: "latest"
+
   - name: deploy-ecs-params
     type: params
     version:
@@ -110,15 +120,22 @@ resources:
     pointer:
       sourceName : "codefreshCluster-ECSCluster-1KW7G556ZKQFG" #name of the cluster to which we are deploying
       region: "eu-west-1"
+
+ - name: deploy-ecs-cluster
+    type: cluster
+    integration: aws
+    pointer:
+      sourceName : "codefreshCluster-ECSCluster-1KW7G556ZKQFG" #name of the cluster to which we are deploying
+      region: "eu-west-1"
  
 jobs:
-  - name: app-mono_runCI
-    type: runCI
-    steps:
-       - OUT: alice_img
-       - OUT: bob_img
-       - OUT: alice_img_feature
-       - OUT: bob_img_feature
+  # - name: app-mono_runCI
+  #   type: runCI
+  #   steps:
+  #      - OUT: alice_img
+  #      - OUT: bob_img
+  #      - OUT: alice_img_feature
+  #      - OUT: bob_img_feature
 
   - name: micro_alice_def
     type: manifest
@@ -141,7 +158,7 @@ jobs:
   - name: deploy-ecs-manifest
     type: manifest
     steps:
-     - IN: alice_img
+     - IN: deploy-ecs-img
      - IN: deploy-ecs-docker-options
      - IN: deploy-ecs-params
      - IN: deploy-ecs-replicas
@@ -150,6 +167,6 @@ jobs:
     type: deploy
     steps:
       - IN: deploy-ecs-manifest
-      - IN: ecs_cluster
+      - IN: deploy-ecs-cluster
       - TASK: managed
         deployMethod: replace
