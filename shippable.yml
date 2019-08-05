@@ -111,7 +111,8 @@ jobs:
      - IN: bob_img_feature
 
   - name: app_deploy
-    type: deploy
+    type: deployconfig
+    
     method: replace
     steps:
       - IN: micro_alice_def
