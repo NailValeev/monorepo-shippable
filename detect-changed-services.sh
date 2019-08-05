@@ -13,7 +13,8 @@ detect_changed_services() {
   do
     if [ "$folder" == 'common' ]; then
       echo "common folder changed, building and publishing all services"
-      changed_services=("alice" "bob")
+      changed_services=("alice")
+      changed_services=("bob")
       echo "list of applications "$changed_services
       break
     else
