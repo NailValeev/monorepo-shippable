@@ -17,7 +17,7 @@ tag_and_push_image() {
   echo "working with branch $BRANCH"
 
   echo "building image $1"
-  sudo docker build -t $ACCOUNT_NAME/$1:$BRANCH.$SHIPPABLE_BUILD_NUMBER -f packages/$1/Dockerfile .
+  sudo docker build -t $ACCOUNT_NAME/$1"_feature":$BRANCH.$SHIPPABLE_BUILD_NUMBER -f packages/$1/Dockerfile .
   echo "pushing image $1"
   sudo docker push $ACCOUNT_NAME/$1:$BRANCH.$SHIPPABLE_BUILD_NUMBER
 
