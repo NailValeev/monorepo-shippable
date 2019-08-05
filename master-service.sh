@@ -28,6 +28,7 @@ tag_and_push_image() {
 
 main() {
 	install_node_modules
+  execute_tests_and_code_coverage
 	tag_and_push_image "$@"
 }
 
