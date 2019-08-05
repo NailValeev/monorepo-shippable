@@ -84,7 +84,7 @@ resources:
       versionName: "feature.1"
 
 
-  - name: deploy-ecs-image
+  - name: deploy-ecs-img
     type: image
     integration: aws
     region: "eu-west-1" 
