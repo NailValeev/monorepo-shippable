@@ -23,6 +23,11 @@ build:
         echo "skipping because it's a PR"
       fi
 
+  # http://docs.shippable.com/ci/shippableyml/#post_ci
+  post_ci:
+    # - 'if [ $IS_PULL_REQUEST == "false" ] ; then docker build -t $ECR_REPO:$BRANCH.$BUILD_NUMBER .; fi'
+    # - 'if [ $IS_PULL_REQUEST == "false" ] ; then docker push $ECR_REPO:$BRANCH.$BUILD_NUMBER ; fi'
+    - 'if [ $IS_PULL_REQUEST == "false" ] ; then shipctl post_resource_state deploy-ecs-image versionName $BRANCH.$BUILD_NUMBER; fi'
 # ECR subscription integration that automatically does a docker login into ECR
 # using credentials specified in the account integration
 integrations:
@@ -69,7 +74,7 @@ resources:
 
   - name: alice_img_feature
     type: image
-    integration: aws
+    integration: integration2
     pointer:
       sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/alice_feature"
     seed:
@@ -77,12 +82,11 @@ resources:
 
   - name: bob_img_feature
     type: image
-    integration: aws
+    integration: integration2
     pointer:
       sourceName: "316425403378.dkr.ecr.eu-west-1.amazonaws.com/bob_feature"
     seed:
       versionName: "feature.1"
-
 
   - name: deploy-ecs-img
     type: image
@@ -137,15 +141,15 @@ jobs:
   #      - OUT: alice_img_feature
   #      - OUT: bob_img_feature
 
-  - name: micro_alice_def
-    type: manifest
-    steps:
-     - IN: alice_img
+  # - name: micro_alice_def
+  #   type: manifest
+  #   steps:
+  #    - IN: alice_img
 
-  - name: micro_bob_def
-    type: manifest
-    steps:
-     - IN: bob_img
+  # - name: micro_bob_def
+  #   type: manifest
+  #   steps:
+  #    - IN: bob_img
 
   # - name: app_deploy
   #   type: deployconfig
